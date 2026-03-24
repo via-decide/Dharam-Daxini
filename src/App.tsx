@@ -56,6 +56,41 @@ export default function App() {
             </p>
           </section>
 
+          {/* Skills */}
+          <section>
+            <h2 className="text-lg font-serif font-bold uppercase tracking-wider border-b border-gray-200 pb-2 mb-4 text-gray-900">
+              Skills
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div>
+                <h3 className="text-base font-bold text-gray-900 mb-2">Technical Skills</h3>
+                <ul className="space-y-1.5 text-sm sm:text-base text-gray-800 list-disc list-outside ml-5">
+                  <li>Chemical Handling & Storage</li>
+                  <li>Laboratory Safety Protocols (OSHA, SDS)</li>
+                  <li>Glassware Cleaning & Maintenance</li>
+                  <li>Sample Preparation & Labeling</li>
+                  <li>Titration & Basic Spectrophotometry</li>
+                  <li>Lab Inventory & Stock Management</li>
+                  <li>Equipment Calibration & Setup</li>
+                  <li>Quality Control (QC) Procedures</li>
+                </ul>
+              </div>
+              <div>
+                <h3 className="text-base font-bold text-gray-900 mb-2">Soft Skills</h3>
+                <ul className="space-y-1.5 text-sm sm:text-base text-gray-800 list-disc list-outside ml-5">
+                  <li>Analytical Thinking</li>
+                  <li>Strong Attention to Detail</li>
+                  <li>Problem Solving</li>
+                  <li>Team Collaboration</li>
+                  <li>Time Management</li>
+                  <li>Technical Documentation & Reporting</li>
+                  <li>Adaptability & Fast Learning</li>
+                  <li>Strict Process Adherence</li>
+                </ul>
+              </div>
+            </div>
+          </section>
+
           {/* Core Competencies */}
           <section>
             <h2 className="text-lg font-serif font-bold uppercase tracking-wider border-b border-gray-200 pb-2 mb-4 text-gray-900">
