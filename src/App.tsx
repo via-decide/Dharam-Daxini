@@ -3,28 +3,66 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { useState, useEffect } from 'react';
+import html2pdf from 'html2pdf.js';
+
 export default function App() {
+  const [isGenerating, setIsGenerating] = useState(false);
+
+  const handlePrint = async () => {
+    const element = document.getElementById('resume-content');
+    if (!element) return;
+
+    setIsGenerating(true);
+    
+    const opt = {
+      margin:       0,
+      filename:     'Dharam_Daxini_Resume.pdf',
+      image:        { type: 'jpeg', quality: 0.98 },
+      html2canvas:  { scale: 2, useCORS: true, windowWidth: 800 },
+      jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+    };
+
+    try {
+      await html2pdf().set(opt).from(element).save();
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-100 py-8 px-4 sm:px-6 lg:px-8 print:bg-white print:py-0 print:px-0 font-sans text-gray-900 selection:bg-gray-200">
-      <div className="max-w-[800px] mx-auto mb-4 flex flex-wrap justify-end gap-3 print:hidden">
-        <a 
-          href="https://www.linkedin.com/in/dharam-daxini-a77508164?utm_source=share_via&utm_content=profile&utm_medium=member_android"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="bg-[#0A66C2] text-white px-4 py-2 text-sm font-medium rounded hover:bg-[#004182] transition-colors shadow-sm flex items-center"
-        >
-          <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
-          Connect on LinkedIn
-        </a>
-        <button 
-          onClick={() => window.print()} 
-          className="bg-gray-900 text-white px-4 py-2 text-sm font-medium rounded hover:bg-gray-800 transition-colors shadow-sm flex items-center"
-        >
-          <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
-          Download PDF
-        </button>
+      <div className="max-w-[800px] mx-auto mb-4 flex flex-col items-end gap-2 print:hidden">
+        <div className="flex flex-wrap justify-end gap-3">
+          <a 
+            href="https://www.linkedin.com/in/dharam-daxini-a77508164?utm_source=share_via&utm_content=profile&utm_medium=member_android"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-[#0A66C2] text-white px-4 py-2 text-sm font-medium rounded hover:bg-[#004182] transition-colors shadow-sm flex items-center"
+          >
+            <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+            Connect on LinkedIn
+          </a>
+          <button 
+            onClick={handlePrint} 
+            disabled={isGenerating}
+            className="bg-gray-900 text-white px-4 py-2 text-sm font-medium rounded hover:bg-gray-800 transition-colors shadow-sm flex items-center disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {isGenerating ? (
+              <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+            ) : (
+              <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+            )}
+            {isGenerating ? 'Generating PDF...' : 'Download PDF'}
+          </button>
+        </div>
       </div>
-      <div className="max-w-[800px] mx-auto bg-white shadow-sm sm:shadow-md print:shadow-none p-8 sm:p-12 print:p-0">
+      <div id="resume-content" className="max-w-[800px] mx-auto bg-white shadow-sm sm:shadow-md print:shadow-none p-8 sm:p-12 print:p-0">
         
         {/* Header */}
         <header className="border-b-[3px] border-gray-900 pb-6 mb-8 text-center sm:text-left">
