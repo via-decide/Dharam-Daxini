@@ -6,11 +6,21 @@
 export default function App() {
   return (
     <div className="min-h-screen bg-gray-100 py-8 px-4 sm:px-6 lg:px-8 print:bg-white print:py-0 print:px-0 font-sans text-gray-900 selection:bg-gray-200">
-      <div className="max-w-[800px] mx-auto mb-4 flex justify-end print:hidden">
+      <div className="max-w-[800px] mx-auto mb-4 flex flex-wrap justify-end gap-3 print:hidden">
+        <a 
+          href="https://www.linkedin.com/in/dharam-daxini-a77508164?utm_source=share_via&utm_content=profile&utm_medium=member_android"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="bg-[#0A66C2] text-white px-4 py-2 text-sm font-medium rounded hover:bg-[#004182] transition-colors shadow-sm flex items-center"
+        >
+          <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+          Connect on LinkedIn
+        </a>
         <button 
           onClick={() => window.print()} 
-          className="bg-gray-900 text-white px-4 py-2 text-sm font-medium rounded hover:bg-gray-800 transition-colors shadow-sm"
+          className="bg-gray-900 text-white px-4 py-2 text-sm font-medium rounded hover:bg-gray-800 transition-colors shadow-sm flex items-center"
         >
+          <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
           Download PDF
         </button>
       </div>
@@ -28,7 +38,9 @@ export default function App() {
             <span className="hidden sm:inline text-gray-300">|</span>
             <a href="mailto:dharam@viadecide.com" className="hover:text-gray-900 transition-colors">dharam@viadecide.com</a>
             <span className="hidden sm:inline text-gray-300">|</span>
-            <a href="https://www.linkedin.com/in/dharam-daxini-a77508164?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank" rel="noopener noreferrer" className="hover:text-gray-900 transition-colors">linkedin.com/in/dharam-daxini-a77508164</a>
+            <a href="https://www.linkedin.com/in/dharam-daxini-a77508164?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank" rel="noopener noreferrer" className="inline-flex items-center px-2 py-0.5 rounded bg-[#0A66C2] text-white hover:bg-[#004182] transition-colors print:bg-transparent print:text-gray-900 print:p-0">
+              LinkedIn Profile
+            </a>
           </div>
         </header>
 
