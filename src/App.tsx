@@ -1599,47 +1599,68 @@ export default function App() {
                   </div>
                 ) : quizFinished ? (
                   <div className="flex-1 flex flex-col items-center py-8 space-y-8 overflow-y-auto pr-2">
-                    <div className="flex flex-col items-center text-center space-y-6">
-                      <div className="relative">
-                        <div className="w-32 h-32 rounded-full border-8 border-emerald-100 dark:border-emerald-900/30 flex items-center justify-center bg-white dark:bg-slate-900 shadow-inner">
-                          <span className="text-4xl font-black text-emerald-600 dark:text-emerald-400">{calculateScore()}%</span>
+                    <div id="assessment-summary" className="flex flex-col items-center space-y-8 bg-white dark:bg-slate-900 p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm w-full max-w-xl">
+                      <div className="flex flex-col items-center text-center space-y-6">
+                        <div className="relative">
+                          <div className="w-32 h-32 rounded-full border-8 border-emerald-100 dark:border-emerald-900/30 flex items-center justify-center bg-white dark:bg-slate-900 shadow-inner">
+                            <span className="text-4xl font-black text-emerald-600 dark:text-emerald-400">{calculateScore()}%</span>
+                          </div>
+                          <motion.div 
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                            className="absolute -top-2 -right-2 bg-emerald-500 text-white p-2 rounded-full shadow-lg"
+                          >
+                            <Trophy size={20} />
+                          </motion.div>
                         </div>
-                        <motion.div 
-                          initial={{ scale: 0 }}
-                          animate={{ scale: 1 }}
-                          className="absolute -top-2 -right-2 bg-emerald-500 text-white p-2 rounded-full shadow-lg"
-                        >
-                          <Trophy size={20} />
-                        </motion.div>
+                        <div className="space-y-2">
+                          <h2 className="text-3xl font-bold text-slate-800 dark:text-slate-100 tracking-tight">Assessment Report</h2>
+                          <p className="text-slate-500 dark:text-slate-400">You've successfully completed the session.</p>
+                        </div>
                       </div>
-                      <div className="space-y-2">
-                        <h2 className="text-3xl font-bold text-slate-800 dark:text-slate-100 tracking-tight">Assessment Report</h2>
-                        <p className="text-slate-500 dark:text-slate-400">You've successfully completed the session.</p>
-                      </div>
-                    </div>
 
-                    {/* Summary Stats */}
-                    <div className="grid grid-cols-3 gap-4 w-full max-w-md">
-                      <div className="bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-100 dark:border-slate-800 text-center shadow-sm">
-                        <p className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-1">Total</p>
-                        <p className="text-2xl font-black text-slate-800 dark:text-slate-200">{activeQuiz.length}</p>
-                      </div>
-                      <div className="bg-emerald-50 dark:bg-emerald-900/20 p-4 rounded-2xl border border-emerald-100 dark:border-emerald-800 text-center shadow-sm">
-                        <p className="text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest mb-1">Correct</p>
-                        <p className="text-2xl font-black text-emerald-700 dark:text-emerald-300">
-                          {userAnswers.filter((ans, idx) => ans === activeQuiz[idx].correctAnswer).length}
-                        </p>
-                      </div>
-                      <div className="bg-rose-50 dark:bg-rose-900/20 p-4 rounded-2xl border border-rose-100 dark:border-rose-800 text-center shadow-sm">
-                        <p className="text-xs font-bold text-rose-600 dark:text-rose-400 uppercase tracking-widest mb-1">Wrong</p>
-                        <p className="text-2xl font-black text-rose-700 dark:text-rose-300">
-                          {userAnswers.filter((ans, idx) => ans !== activeQuiz[idx].correctAnswer).length}
-                        </p>
+                      {/* Summary Stats */}
+                      <div className="grid grid-cols-3 gap-4 w-full">
+                        <div className="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-2xl border border-slate-100 dark:border-slate-700/50 text-center shadow-sm">
+                          <p className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-1">Total</p>
+                          <p className="text-2xl font-black text-slate-800 dark:text-slate-200">{activeQuiz.length}</p>
+                        </div>
+                        <div className="bg-emerald-50 dark:bg-emerald-900/20 p-4 rounded-2xl border border-emerald-100 dark:border-emerald-800/50 text-center shadow-sm">
+                          <p className="text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest mb-1">Correct</p>
+                          <p className="text-2xl font-black text-emerald-700 dark:text-emerald-300">
+                            {userAnswers.filter((ans, idx) => ans === activeQuiz[idx].correctAnswer).length}
+                          </p>
+                        </div>
+                        <div className="bg-rose-50 dark:bg-rose-900/20 p-4 rounded-2xl border border-rose-100 dark:border-rose-800/50 text-center shadow-sm">
+                          <p className="text-xs font-bold text-rose-600 dark:text-rose-400 uppercase tracking-widest mb-1">Wrong</p>
+                          <p className="text-2xl font-black text-rose-700 dark:text-rose-300">
+                            {userAnswers.filter((ans, idx) => ans !== activeQuiz[idx].correctAnswer).length}
+                          </p>
+                        </div>
                       </div>
                     </div>
 
                     {!showReview ? (
-                      <div className="flex gap-4 mt-8">
+                      <div className="flex flex-wrap justify-center gap-4 mt-8 w-full max-w-md">
+                        <button 
+                          onClick={() => {
+                            const element = document.getElementById('assessment-summary');
+                            if (element) {
+                              html2canvas(element, { scale: 2 }).then(canvas => {
+                                const imgData = canvas.toDataURL('image/png');
+                                const pdf = new jsPDF('p', 'mm', 'a4');
+                                const pdfWidth = pdf.internal.pageSize.getWidth();
+                                const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+                                pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+                                pdf.save('Assessment_Summary.pdf');
+                              });
+                            }
+                          }}
+                          className="px-8 py-4 bg-indigo-600 text-white rounded-full font-bold shadow-xl shadow-indigo-200 dark:shadow-none hover:bg-indigo-700 transition-all active:scale-95 flex items-center gap-2"
+                        >
+                          <Download size={20} />
+                          Export PDF
+                        </button>
                         <button 
                           onClick={() => setShowReview(true)}
                           className="px-8 py-4 bg-emerald-600 text-white rounded-full font-bold shadow-xl shadow-emerald-200 dark:shadow-none hover:bg-emerald-700 transition-all active:scale-95"
@@ -1702,12 +1723,33 @@ export default function App() {
                           ))}
                         </div>
 
-                        <button 
-                          onClick={() => { setQuizFinished(false); setQuizStarted(false); setCurrentQuestionIndex(0); setUserAnswers([]); setShowReview(false); }}
-                          className="mt-8 px-12 py-4 bg-slate-900 dark:bg-slate-800 text-white rounded-full font-bold shadow-xl shadow-slate-200 dark:shadow-none hover:bg-black dark:hover:bg-slate-700 transition-all active:scale-95"
-                        >
-                          Return to Test Center
-                        </button>
+                        <div className="flex flex-wrap justify-center gap-4 mt-8 w-full pb-8">
+                          <button 
+                            onClick={() => {
+                              const element = document.getElementById('assessment-summary');
+                              if (element) {
+                                html2canvas(element, { scale: 2 }).then(canvas => {
+                                  const imgData = canvas.toDataURL('image/png');
+                                  const pdf = new jsPDF('p', 'mm', 'a4');
+                                  const pdfWidth = pdf.internal.pageSize.getWidth();
+                                  const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+                                  pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+                                  pdf.save('Assessment_Summary.pdf');
+                                });
+                              }
+                            }}
+                            className="px-8 py-4 bg-indigo-600 text-white rounded-full font-bold shadow-xl shadow-indigo-200 dark:shadow-none hover:bg-indigo-700 transition-all active:scale-95 flex items-center gap-2"
+                          >
+                            <Download size={20} />
+                            Export PDF
+                          </button>
+                          <button 
+                            onClick={() => { setQuizFinished(false); setQuizStarted(false); setCurrentQuestionIndex(0); setUserAnswers([]); setShowReview(false); }}
+                            className="px-8 py-4 bg-slate-900 dark:bg-slate-800 text-white rounded-full font-bold shadow-xl shadow-slate-200 dark:shadow-none hover:bg-black dark:hover:bg-slate-700 transition-all active:scale-95"
+                          >
+                            Return to Test Center
+                          </button>
+                        </div>
                       </>
                     )}
                   </div>
