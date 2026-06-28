@@ -2313,6 +2313,10 @@ export default function App() {
                     </p>
                     <div className="flex gap-4 mt-4 text-sm text-slate-600 dark:text-slate-400">
                       <span>{currentUser ? currentUser.email : 'alex.chemist@example.com'}</span>
+                    <h1 className="text-4xl font-black text-slate-900 dark:text-slate-100 tracking-tight mb-2">Alex Chemist</h1>
+                    <p className="text-lg text-emerald-600 dark:text-emerald-400 font-medium">Aspiring Research Scientist & GATE Aspirant</p>
+                    <div className="flex gap-4 mt-4 text-sm text-slate-600 dark:text-slate-400">
+                      <span>alex.chemist@example.com</span>
                       <span>•</span>
                       <span>{currentUser ? '+91 99799 10101' : '+91 98765 43210'}</span>
                       <span>•</span>
