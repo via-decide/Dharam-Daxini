@@ -53,7 +53,9 @@ import {
 import { cn } from './lib/utils';
 import { CHEMISTRY_RESOURCES, SAMPLE_QUIZ, IIT_JAM_QUIZ, LORE_MISSIONS, type Resource, type QuizQuestion, type LoreMission, type LoreMode } from './constants';
 
-type Tab = 'dashboard' | 'vault' | 'test' | 'lore' | 'resume' | 'settings';
+import { DailyMissionGate } from './components/DailyMissionGate';
+
+type Tab = 'dashboard' | 'vault' | 'test' | 'lore' | 'daily' | 'resume' | 'settings';
 
 const progressData = [
   { name: 'Mon', score: 45 },
@@ -1332,6 +1334,13 @@ export default function App() {
             collapsed={!isSidebarOpen}
           />
           <SidebarItem 
+            icon={<Zap size={20} />} 
+            label="Daily Mission" 
+            active={activeTab === 'daily'} 
+            onClick={() => handleTabChange('daily')}
+            collapsed={!isSidebarOpen}
+          />
+          <SidebarItem 
             icon={<Briefcase size={20} />} 
             label="Resume" 
             active={activeTab === 'resume'} 
@@ -2076,6 +2085,18 @@ export default function App() {
                     </div>
                   </div>
                 )}
+              </motion.div>
+            )}
+
+            {activeTab === 'daily' && (
+              <motion.div 
+                key="daily"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                className="h-full flex flex-col"
+              >
+                <DailyMissionGate />
               </motion.div>
             )}
 

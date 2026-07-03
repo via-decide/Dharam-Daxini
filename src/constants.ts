@@ -22,6 +22,199 @@ export interface LoreMission {
 
 export const LORE_MISSIONS: LoreMission[] = [
   {
+  id: "organic-synthesis-matrix",
+  title: "The Organic Synthesis Matrix",
+  topic: "Organic Chemistry",
+  loreText: "A synthetic bioweapon has decimated the agricultural sectors of the inner planets. The only hope is a complex organic antidote, but the reaction pathways are heavily guarded by stereochemical traps and fragile functional groups. You must navigate the carbon backbones, utilizing precise reagents like Grignards and Wittig to construct the target molecule before the crop failure causes mass starvation. Master the art of electron pushing and resonance to break the matrix.",
+  modes: {
+    learner: {
+      id: "retro-synth-sim",
+      title: "Retro-Synth Simulator",
+      targetAudience: "For Learners",
+      goal: "Master retrosynthetic analysis, reaction mechanisms, and stereochemistry.",
+      interfaceDesc: "A holographic 3D molecule builder.",
+      gameplay: [
+        "Phase 1: Functional Group Identification. Highlight the reactive centers.",
+        "Phase 2: Mechanism Execution. Drag electrons to form and break bonds without violating the octet rule."
+      ],
+      whyItWorks: "Turns abstract mechanisms into interactive puzzles."
+    },
+    gamer: {
+      id: "carbon-crusade",
+      title: "Carbon Crusade",
+      targetAudience: "For Gamers",
+      goal: "Synthesize complex molecules to unlock cure variants while managing reagent toxicity.",
+      interfaceDesc: "A tactical grid-based puzzle system.",
+      gameplay: [
+        "Use reagents as \"power-ups\" to overcome stereochemical blockades.",
+        "Chain reactions for combo points to accelerate synthesis."
+      ],
+      hook: "Fast-paced, satisfying visual feedback for correct electron flow."
+    }
+  }
+},
+  {
+  id: "electro-voltaic-core",
+  title: "The Electro-Voltaic Core",
+  topic: "Electrochemistry",
+  loreText: "The orbital station's main reactor is failing, its ionic gradients collapsing. You must dive into the electrochemical core, acting as the ultimate salt bridge. Your task is to balance the redox reactions, ensuring the smooth flow of electrons from the anode to the cathode. Calculate the Nernst potentials accurately; a single miscalculation could reverse the flow and trigger a catastrophic overload.",
+  modes: {
+    learner: {
+      id: "redox-balancer",
+      title: "Redox Balancer",
+      targetAudience: "For Learners",
+      goal: "Master the Nernst equation, cell potential, and Faraday's laws.",
+      interfaceDesc: "A split-screen virtual galvanic and electrolytic cell setup.",
+      gameplay: [
+        "Phase 1: Half-Cell Construction. Choose the correct electrodes and electrolytes.",
+        "Phase 2: Potential Calculation. Set the concentrations to achieve the target voltage."
+      ],
+      whyItWorks: "Visualizes electron and ion flow in real-time."
+    },
+    gamer: {
+      id: "voltage-vanguard",
+      title: "Voltage Vanguard",
+      targetAudience: "For Gamers",
+      goal: "Keep the station powered by rapidly balancing incoming redox threats.",
+      interfaceDesc: "A frantic resource management dashboard.",
+      gameplay: [
+        "Divert electron flow to critical systems by solving redox pairs.",
+        "Upgrade electrodes to handle higher current densities."
+      ],
+      hook: "Intense balancing act with visual indicators of impending overload."
+    }
+  }
+},
+  {
+  id: "thermo-dynamics-engine",
+  title: "The Thermo-Dynamics Engine",
+  topic: "Thermodynamics & Physical Chemistry",
+  loreText: "The terraforming engine of Mars has frozen, trapped in a state of high entropy. You must manipulate the laws of thermodynamics—enthalpy, entropy, and Gibbs free energy—to ignite the core and create a habitable atmosphere. Manage the heat flow, optimize the Carnot cycles, and push the system towards spontaneity. The fate of the new world depends on your ability to master the energy transfer.",
+  modes: {
+    learner: {
+      id: "entropy-architect",
+      title: "Entropy Architect",
+      targetAudience: "For Learners",
+      goal: "Understand the laws of thermodynamics, Maxwell relations, and phase equilibria.",
+      interfaceDesc: "A complex P-V-T phase diagram simulator.",
+      gameplay: [
+        "Phase 1: State Variables. Adjust pressure and temperature to cross phase boundaries.",
+        "Phase 2: Work and Heat. Calculate the efficiency of the engine cycles."
+      ],
+      whyItWorks: "Makes abstract thermodynamic state functions visual and manipulatable."
+    },
+    gamer: {
+      id: "heat-death-escape",
+      title: "Heat Death Escape",
+      targetAudience: "For Gamers",
+      goal: "Prevent the engine from reaching maximum entropy by carefully routing heat.",
+      interfaceDesc: "A dynamic flow-routing puzzle game.",
+      gameplay: [
+        "Route hot and cold streams to power turbines.",
+        "Avoid localized entropy spikes that damage the engine."
+      ],
+      hook: "Strategic puzzle solving with catastrophic visual consequences for failure."
+    }
+  }
+},
+  {
+  id: "inorganic-lattice-vault",
+  title: "The Inorganic Lattice Vault",
+  topic: "Inorganic Chemistry & Coordination Compounds",
+  loreText: "Deep within the alien ruins, a massive crystal lattice acts as a vault holding ancient technology. To unlock it, you must decipher the coordination chemistry of the complex ions. Understand the crystal field splitting, identify the ligands, and manipulate the d-orbital electrons to match the vault's resonant frequency. A single mismatched oxidation state will trigger the defensive protocols.",
+  modes: {
+    learner: {
+      id: "ligand-field-mapper",
+      title: "Ligand Field Mapper",
+      targetAudience: "For Learners",
+      goal: "Master Crystal Field Theory, coordination numbers, and isomerism.",
+      interfaceDesc: "A 3D spatial reasoning environment for metal complexes.",
+      gameplay: [
+        "Phase 1: Geometry Construction. Attach ligands to achieve octahedral or tetrahedral geometries.",
+        "Phase 2: Splitting Energy. Arrange electrons in the t2g and eg orbitals based on ligand strength."
+      ],
+      whyItWorks: "Enhances 3D spatial understanding of complex molecules."
+    },
+    gamer: {
+      id: "crystal-resonance",
+      title: "Crystal Resonance",
+      targetAudience: "For Gamers",
+      goal: "Unlock alien artifacts by matching specific color frequencies of coordination complexes.",
+      interfaceDesc: "A visually stunning color and geometry matching game.",
+      gameplay: [
+        "Swap ligands to shift the absorption spectrum to the required color.",
+        "Manage the overall charge of the complex to avoid defensive blasts."
+      ],
+      hook: "Beautiful crystal visuals paired with satisfying \"unlock\" mechanics."
+    }
+  }
+},
+  {
+  id: "analytical-spectre-scanner",
+  title: "The Analytical Spectre Scanner",
+  topic: "Analytical Chemistry & Spectroscopy",
+  loreText: "A highly advanced cloaked ship has entered the sector. The only way to identify its origin and weaknesses is to analyze its faint energy signature using the Spectre Scanner. You must interpret complex NMR, IR, and Mass spectra to deduce the molecular structure of its hull. Filter out the noise, identify the key functional groups, and piece together the molecular puzzle before it vanishes into the void.",
+  modes: {
+    learner: {
+      id: "spectrum-sleuth",
+      title: "Spectrum Sleuth",
+      targetAudience: "For Learners",
+      goal: "Master the interpretation of NMR, IR, UV-Vis, and Mass spectrometry data.",
+      interfaceDesc: "A high-tech forensics lab interface with interactive spectra.",
+      gameplay: [
+        "Phase 1: Peak Identification. Assign chemical shifts and frequencies to functional groups.",
+        "Phase 2: Structure Elucidation. Combine data from multiple spectra to build the final molecule."
+      ],
+      whyItWorks: "Provides a structured, interactive way to practice complex data interpretation."
+    },
+    gamer: {
+      id: "signal-intercept",
+      title: "Signal Intercept",
+      targetAudience: "For Gamers",
+      goal: "Identify enemy ship classes by rapidly decoding spectral signatures under fire.",
+      interfaceDesc: "A tense, radar-like scanning interface.",
+      gameplay: [
+        "Match spectral peaks to a database of known materials to lock on.",
+        "Filter out active jamming signals (noise) to see the true spectrum."
+      ],
+      hook: "High-pressure deductive reasoning with immediate tactical rewards."
+    }
+  }
+},
+  {
+  id: "statmech-probability-drive",
+  title: "The StatMech Probability Drive",
+  topic: "Statistical Mechanics",
+  loreText: "The experimental Probability Drive is malfunctioning, trapped in a superposition of microstates. To stabilize the ship, you must navigate the partition functions and define the macrostate. Balance the distribution of particles across energy levels according to Boltzmann statistics. If the system collapses into a high-energy microstate, the drive will detonate.",
+  modes: {
+    learner: {
+      id: "ensemble-explorer",
+      title: "Ensemble Explorer",
+      targetAudience: "For Learners",
+      goal: "Understand microstates, macrostates, partition functions, and Boltzmann distributions.",
+      interfaceDesc: "A particle simulation sandbox.",
+      gameplay: [
+        "Phase 1: Microstate Distribution. Assign particles to energy levels to maximize probability.",
+        "Phase 2: Ensemble Averages. Calculate macroscopic properties like internal energy and entropy from the partition function."
+      ],
+      whyItWorks: "Bridges the gap between microscopic behavior and macroscopic thermodynamics visually."
+    },
+    gamer: {
+      id: "quantum-chaos-control",
+      title: "Quantum Chaos Control",
+      targetAudience: "For Gamers",
+      goal: "Keep the drive stable by rapidly redistributing energy among a swarm of particles.",
+      interfaceDesc: "A chaotic, particle-swarming management game.",
+      gameplay: [
+        "Capture high-energy particles and redistribute their energy to cool the system.",
+        "Maintain the optimal Boltzmann distribution to maximize drive output."
+      ],
+      hook: "Fast-paced, mesmerizing particle interactions requiring quick reflexes and strategy."
+    }
+  }
+},
+  
+  {
     id: 'anti-grav-phenomenon',
     title: 'The Anti-Grav Phenomenon',
     topic: 'Surface Chemistry & Froth Flotation',
