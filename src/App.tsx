@@ -845,87 +845,6 @@ export default function App() {
   const [activeTab, setActiveTab] = useState<Tab>('dashboard');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
-
-  // Aporaksha & NFC Authentication State
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
-    if (typeof window !== 'undefined') {
-      const params = new URLSearchParams(window.location.search);
-      if (params.get('bypass_auth') === 'true' || window.location.protocol === 'file:') {
-        return true;
-      }
-      return localStorage.getItem('aporaksha_auth_active') === 'true';
-    }
-    return false;
-  });
-  
-  const [currentUser, setCurrentUser] = useState<{
-    passportId: string;
-    name: string;
-    role: string;
-    reputation: number;
-    keyId: string;
-    email: string;
-    location: string;
-  } | null>(() => {
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('aporaksha_user');
-      if (saved) return JSON.parse(saved);
-      
-      const params = new URLSearchParams(window.location.search);
-      if (params.get('bypass_auth') === 'true' || window.location.protocol === 'file:') {
-        return {
-          passportId: 'dharam-daxini',
-          name: 'Dharam Daxini',
-          role: 'Lead Architect',
-          reputation: 98,
-          keyId: 'LORE_KEY_779',
-          email: 'dharam@viadecide.com',
-          location: 'Gandhidham, Gujarat, India'
-        };
-      }
-    }
-    return null;
-  });
-
-  const [nfcReading, setNfcReading] = useState(false);
-  const [showNfcScanner, setShowNfcScanner] = useState(false);
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const checkAporakshaSession = () => {
-        const viaAuth = (window as any).viaAuth;
-        if (viaAuth && typeof viaAuth.getSession === 'function') {
-          const session = viaAuth.getSession();
-          if (session) {
-            const userDetails = {
-              passportId: session.userId || 'dharam-daxini',
-              name: session.name || 'Dharam Daxini',
-              role: session.role || 'Lead Architect',
-              reputation: Number(session.reputation) || 98,
-              keyId: session.keyId || 'LORE_KEY_779',
-              email: session.email || 'dharam@viadecide.com',
-              location: session.location || 'Gandhidham, Gujarat, India'
-            };
-            setCurrentUser(userDetails);
-            setIsAuthenticated(true);
-            localStorage.setItem('aporaksha_auth_active', 'true');
-            localStorage.setItem('aporaksha_user', JSON.stringify(userDetails));
-          }
-        }
-      };
-      
-      let checkCount = 0;
-      const interval = setInterval(() => {
-        checkAporakshaSession();
-        checkCount++;
-        if (checkCount > 10 || isAuthenticated) {
-          clearInterval(interval);
-        }
-      }, 500);
-      return () => clearInterval(interval);
-    }
-  }, [isAuthenticated]);
-
   const [searchQuery, setSearchQuery] = useState('');
   const [vaultSearchQuery, setVaultSearchQuery] = useState('');
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
@@ -1162,99 +1081,6 @@ export default function App() {
 
   return (
     <div className="flex h-screen bg-[#F8FAFC] dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-sans overflow-hidden relative transition-colors duration-200">
-      {/* Aporaksha Lock Screen Overlay */}
-      {!isAuthenticated && (
-        <div className="fixed inset-0 bg-slate-950/90 backdrop-blur-md z-50 flex items-center justify-center p-4">
-          <motion.div 
-            initial={{ scale: 0.95, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            className="w-full max-w-md bg-slate-900 border border-slate-800 rounded-3xl p-8 text-center space-y-6 shadow-2xl relative overflow-hidden"
-          >
-            <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-emerald-500 via-cyan-500 to-emerald-500" />
-            
-            <div className="w-16 h-16 mx-auto bg-emerald-500/10 text-emerald-400 rounded-2xl flex items-center justify-center shadow-lg shadow-emerald-500/10">
-              <Zap size={32} className="animate-pulse" />
-            </div>
-
-            <div className="space-y-2">
-              <h2 className="text-2xl font-black text-white">Security Key Required</h2>
-              <p className="text-slate-400 text-sm">Tap your physical Lore Key (NFC Tag) or sign in via Aporaksha Passport to unlock the Sovereign Workspace.</p>
-            </div>
-
-            <div className="border border-slate-800 rounded-2xl p-4 bg-slate-950/50 flex flex-col items-center justify-center gap-3">
-              {nfcReading ? (
-                <>
-                  <div className="w-8 h-8 rounded-full border-2 border-cyan-400 border-t-transparent animate-spin" />
-                  <span className="text-xs font-bold text-cyan-400 uppercase tracking-widest">Reading NFC Tag...</span>
-                </>
-              ) : (
-                <>
-                  <div className="w-2 h-2 rounded-full bg-slate-600 animate-pulse" />
-                  <span className="text-xs font-bold text-slate-500 uppercase tracking-widest">NFC Reader: Idle</span>
-                </>
-              )}
-            </div>
-
-            <div className="flex flex-col gap-3">
-              <button 
-                onClick={() => {
-                  setNfcReading(true);
-                  setTimeout(() => {
-                    setNfcReading(false);
-                    const mockUser = {
-                      passportId: 'dharam-daxini',
-                      name: 'Dharam Daxini',
-                      role: 'Lead Architect',
-                      reputation: 98,
-                      keyId: 'LORE_KEY_779',
-                      email: 'dharam@viadecide.com',
-                      location: 'Gandhidham, Gujarat, India'
-                    };
-                    setCurrentUser(mockUser);
-                    setIsAuthenticated(true);
-                    localStorage.setItem('aporaksha_auth_active', 'true');
-                    localStorage.setItem('aporaksha_user', JSON.stringify(mockUser));
-                  }, 1200);
-                }}
-                className="w-full py-3 bg-gradient-to-r from-emerald-600 to-cyan-600 hover:from-emerald-500 hover:to-cyan-500 text-white font-bold rounded-xl shadow-lg shadow-emerald-500/20 transition-all flex items-center justify-center gap-2"
-              >
-                Scan Lore Key (NFC)
-              </button>
-
-              <button 
-                onClick={() => {
-                  const viaAuth = (window as any).viaAuth;
-                  if (viaAuth && typeof viaAuth.redirectToApp === 'function') {
-                    viaAuth.redirectToApp('https://aporaksha.com/passport', 'login', window.location.href);
-                  } else {
-                    const mockUser = {
-                      passportId: 'dharam-daxini',
-                      name: 'Dharam Daxini',
-                      role: 'Lead Architect',
-                      reputation: 98,
-                      keyId: 'LORE_KEY_779',
-                      email: 'dharam@viadecide.com',
-                      location: 'Gandhidham, Gujarat, India'
-                    };
-                    setCurrentUser(mockUser);
-                    setIsAuthenticated(true);
-                    localStorage.setItem('aporaksha_auth_active', 'true');
-                    localStorage.setItem('aporaksha_user', JSON.stringify(mockUser));
-                  }
-                }}
-                className="w-full py-3 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 hover:border-slate-600 font-semibold rounded-xl transition-colors text-sm"
-              >
-                Sign In with Aporaksha Passport
-              </button>
-            </div>
-            
-            <div className="text-[10px] text-slate-500">
-              © 2026 Aporaksha Identity Kernel &bull; Secure Authentication Layer
-            </div>
-          </motion.div>
-        </div>
-      )}
-
       {/* Mobile Sidebar Overlay */}
       <AnimatePresence>
         {isSidebarOpen && window.innerWidth < 1024 && (
@@ -1346,36 +1172,6 @@ export default function App() {
             collapsed={!isSidebarOpen}
           />
         </nav>
-        {currentUser && isSidebarOpen && (
-          <div className="p-4 border-t border-slate-100 dark:border-slate-800 space-y-2">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-r from-emerald-500 to-cyan-500 flex items-center justify-center font-bold text-white shadow-inner shrink-0">
-                {currentUser.name[0]}
-              </div>
-              <div className="flex-1 overflow-hidden">
-                <div className="font-bold text-sm text-slate-850 dark:text-slate-200 truncate">{currentUser.name}</div>
-                <div className="text-xs text-slate-500 dark:text-slate-400 truncate">{currentUser.role}</div>
-              </div>
-            </div>
-            <div className="flex items-center justify-between text-[10px] text-slate-400 dark:text-slate-500 bg-slate-50 dark:bg-slate-900/60 p-2 rounded-lg border border-slate-100 dark:border-slate-800/80">
-              <div className="flex items-center gap-1.5">
-                <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                <span>NFC Secure Link</span>
-              </div>
-              <button 
-                onClick={() => {
-                  setIsAuthenticated(false);
-                  setCurrentUser(null);
-                  localStorage.removeItem('aporaksha_auth_active');
-                  localStorage.removeItem('aporaksha_user');
-                }}
-                className="hover:text-rose-500 transition-colors font-bold uppercase tracking-wider"
-              >
-                Lock
-              </button>
-            </div>
-          </div>
-        )}
 
         <div className="p-4 border-t border-slate-100 dark:border-slate-800 hidden lg:block">
           <button 
@@ -1486,7 +1282,17 @@ export default function App() {
                             </div>
                             <div>
                               <p className="font-semibold text-sm dark:text-slate-200">{resource.title}</p>
-                              <p className="text-xs text-slate-500 dark:text-slate-400">{resource.category} • {resource.year === 0 ? 'Archive' : resource.year}</p>
+                              <div className="flex items-center gap-2 mt-1">
+                                <span className={cn(
+                                  "px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider inline-block",
+                                  resource.category === 'GATE' ? "bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400" :
+                                  resource.category === 'JAM' ? "bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400" :
+                                  "bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400"
+                                )}>
+                                  {resource.category}
+                                </span>
+                                <span className="text-xs text-slate-500 dark:text-slate-400">• {resource.year === 0 ? 'Archive' : resource.year}</span>
+                              </div>
                             </div>
                           </div>
                           <button 
@@ -1616,15 +1422,23 @@ export default function App() {
                     selectedResource && "hidden lg:block"
                   )}>
                     {filteredResources.map(resource => (
-                      <button
+                      <div
                         key={resource.id}
                         onClick={() => setSelectedResource(resource)}
                         className={cn(
-                          "w-full text-left p-4 rounded-2xl border transition-all flex flex-col gap-2",
+                          "w-full text-left p-4 rounded-2xl border transition-all flex flex-col gap-2 relative cursor-pointer group",
                           selectedResource?.id === resource.id 
                             ? "bg-emerald-50 dark:bg-emerald-900/20 border-emerald-200 dark:border-emerald-800 shadow-md shadow-emerald-100 dark:shadow-none" 
-                            : "bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 hover:border-emerald-300 dark:hover:border-emerald-700"
+                            : "bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 hover:border-emerald-300 dark:hover:border-emerald-700 hover:shadow-sm"
                         )}
+                        role="button"
+                        tabIndex={0}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            setSelectedResource(resource);
+                          }
+                        }}
                       >
                         <div className="flex justify-between items-start">
                           <span className={cn(
@@ -1637,12 +1451,32 @@ export default function App() {
                           </span>
                           <span className="text-xs text-slate-400 dark:text-slate-500">{resource.year === 0 ? 'Archive' : resource.year}</span>
                         </div>
-                        <p className="font-bold text-slate-800 dark:text-slate-200 leading-tight">{resource.title}</p>
-                        <div className="flex items-center gap-2 mt-2 text-xs text-slate-500 dark:text-slate-400">
-                          {resource.type === 'Repository' ? <Database size={14} /> : <FileText size={14} />}
-                          <span>{resource.type}</span>
+                        <p className="font-bold text-slate-800 dark:text-slate-200 leading-tight pr-10">{resource.title}</p>
+                        <div className="flex items-center justify-between mt-2">
+                          <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
+                            {resource.type === 'Repository' ? <Database size={14} /> : <FileText size={14} />}
+                            <span>{resource.type}</span>
+                            {resource.fileSize && (
+                              <>
+                                <span>•</span>
+                                <span>{resource.fileSize}</span>
+                              </>
+                            )}
+                          </div>
                         </div>
-                      </button>
+                        
+                        <a 
+                          href={resource.url} 
+                          download
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={(e) => e.stopPropagation()}
+                          title="Download Resource"
+                          className="absolute right-3 bottom-3 p-2 rounded-full text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors z-10"
+                        >
+                          <Download size={16} />
+                        </a>
+                      </div>
                     ))}
                   </div>
 
@@ -1654,13 +1488,21 @@ export default function App() {
                     {selectedResource ? (
                       <>
                         <div className="bg-white dark:bg-slate-900 p-4 border-b border-slate-300 dark:border-slate-800 flex items-center justify-between">
-                          <div className="flex items-center gap-2 overflow-hidden">
+                          <div className="flex items-center gap-2 overflow-hidden w-full pr-4">
                             <button 
                               onClick={() => setSelectedResource(null)}
-                              className="lg:hidden p-1 hover:bg-slate-100 dark:hover:bg-slate-800 rounded text-slate-700 dark:text-slate-300"
+                              className="lg:hidden p-1 hover:bg-slate-100 dark:hover:bg-slate-800 rounded text-slate-700 dark:text-slate-300 shrink-0"
                             >
                               <ChevronRight className="rotate-180" size={20} />
                             </button>
+                            <span className={cn(
+                              "hidden sm:inline-block px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider shrink-0",
+                              selectedResource.category === 'GATE' ? "bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400" :
+                              selectedResource.category === 'JAM' ? "bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400" :
+                              "bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400"
+                            )}>
+                              {selectedResource.category}
+                            </span>
                             <h3 className="font-bold text-slate-700 dark:text-slate-300 truncate text-sm">{selectedResource.title}</h3>
                           </div>
                           <a 
@@ -2305,22 +2147,14 @@ export default function App() {
                   style={{ minHeight: '800px' }}
                 >
                   <div className="border-b-2 border-slate-800 dark:border-slate-700 pb-6 mb-8">
-                    <h1 className="text-4xl font-black text-slate-900 dark:text-slate-100 tracking-tight mb-2">
-                      {currentUser ? currentUser.name : 'Alex Chemist'}
-                    </h1>
-                    <p className="text-lg text-emerald-600 dark:text-emerald-400 font-medium">
-                      {currentUser ? `${currentUser.role} & Architect` : 'Aspiring Research Scientist & GATE Aspirant'}
-                    </p>
-                    <div className="flex gap-4 mt-4 text-sm text-slate-600 dark:text-slate-400">
-                      <span>{currentUser ? currentUser.email : 'alex.chemist@example.com'}</span>
                     <h1 className="text-4xl font-black text-slate-900 dark:text-slate-100 tracking-tight mb-2">Alex Chemist</h1>
                     <p className="text-lg text-emerald-600 dark:text-emerald-400 font-medium">Aspiring Research Scientist & GATE Aspirant</p>
                     <div className="flex gap-4 mt-4 text-sm text-slate-600 dark:text-slate-400">
                       <span>alex.chemist@example.com</span>
                       <span>•</span>
-                      <span>{currentUser ? '+91 99799 10101' : '+91 98765 43210'}</span>
+                      <span>+91 98765 43210</span>
                       <span>•</span>
-                      <span>{currentUser ? currentUser.location : 'New Delhi, India'}</span>
+                      <span>New Delhi, India</span>
                     </div>
                   </div>
 

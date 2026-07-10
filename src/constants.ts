@@ -127,6 +127,7 @@ export interface Resource {
   year: number;
   url: string;
   type: 'Paper' | 'Key' | 'Repository';
+  fileSize?: string;
 }
 
 export const CHEMISTRY_RESOURCES: Resource[] = [
@@ -137,6 +138,7 @@ export const CHEMISTRY_RESOURCES: Resource[] = [
     year: 2025,
     url: 'https://gate2026.iitg.ac.in/doc/download/2025/CY2025.pdf',
     type: 'Paper',
+    fileSize: '4.2 MB',
   },
   {
     id: 'gate-2025-key',
@@ -145,6 +147,7 @@ export const CHEMISTRY_RESOURCES: Resource[] = [
     year: 2025,
     url: 'https://gate2026.iitg.ac.in/doc/download/2025_Key/CY_Keys.pdf',
     type: 'Key',
+    fileSize: '1.1 MB',
   },
   {
     id: 'gate-2024-paper',
@@ -153,6 +156,7 @@ export const CHEMISTRY_RESOURCES: Resource[] = [
     year: 2024,
     url: 'https://gate2025.iitr.ac.in/doc/download/2024/CY24S1.pdf',
     type: 'Paper',
+    fileSize: '3.8 MB',
   },
   {
     id: 'gate-2024-key',
@@ -161,6 +165,7 @@ export const CHEMISTRY_RESOURCES: Resource[] = [
     year: 2024,
     url: 'https://gate2024.iisc.ac.in/wp-content/uploads/2024/CYFinalAnswerKey.pdf',
     type: 'Key',
+    fileSize: '0.9 MB',
   },
   {
     id: 'gate-2023-key',
@@ -169,6 +174,7 @@ export const CHEMISTRY_RESOURCES: Resource[] = [
     year: 2023,
     url: 'https://gate.iitk.ac.in/GATE2023/doc/papers/2023/ANS/CY_ANS_GATE2023.pdf',
     type: 'Key',
+    fileSize: '1.2 MB',
   },
   {
     id: 'gate-2022-paper',
@@ -177,6 +183,7 @@ export const CHEMISTRY_RESOURCES: Resource[] = [
     year: 2022,
     url: 'https://gate.iitk.ac.in/GATE2023/doc/papers/2022/cy_2022.pdf',
     type: 'Paper',
+    fileSize: '4.5 MB',
   },
   {
     id: 'gate-2021-paper',
@@ -201,6 +208,7 @@ export const CHEMISTRY_RESOURCES: Resource[] = [
     year: 2025,
     url: 'https://jam2026.iitb.ac.in/files/CY2025.pdf',
     type: 'Paper',
+    fileSize: '2.5 MB',
   },
   {
     id: 'tifr-2022-paper',
@@ -209,6 +217,7 @@ export const CHEMISTRY_RESOURCES: Resource[] = [
     year: 2022,
     url: 'https://media.ifasonline.com/production/pyqpdf/902a5f47-6fe2-4003-907b-2b5d6397959c.pdf',
     type: 'Paper',
+    fileSize: '3.1 MB',
   },
   {
     id: 'gate-repo-1',
